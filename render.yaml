@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: senegal-heritage-studio
+    runtime: python
+    plan: starter # Un plan payant est requis pour les disques persistants
+    buildCommand: |
+      apt-get update && apt-get install -y ffmpeg espeak-ng
+      pip install -r requirements.txt
+    startCommand: python senegal_heritage.py serve --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: STUDIO_HOME
+        value: /data
+      - key: MAX_WORKERS
+        value: "1"
